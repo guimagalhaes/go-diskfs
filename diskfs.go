@@ -148,7 +148,7 @@ var openModeOptions = map[OpenModeOption]int{
 func writableMode(mode OpenModeOption) bool {
 	m, ok := openModeOptions[mode]
 	if ok {
-		if m&os.O_RDWR == os.O_RDWR || m&os.O_WRONLY == os.O_WRONLY {
+		if m&os.O_RDWR != 0 || m&os.O_WRONLY != 0 {
 			return true
 		}
 	}

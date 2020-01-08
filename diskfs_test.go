@@ -9,7 +9,6 @@ import (
 
 	"github.com/diskfs/go-diskfs"
 	"github.com/diskfs/go-diskfs/disk"
-	"github.com/diskfs/go-diskfs/partition/mbr"
 )
 
 const oneMB = 10 * 1024 * 1024
@@ -93,23 +92,6 @@ func TestOpen(t *testing.T) {
 			t.Errorf("%s: mismatched disk, actual then expected", msg)
 			t.Logf("%v", d)
 			t.Logf("%v", tt.disk)
-		}
-
-		if d != nil {
-			expectedErr := fmt.Errorf("disk file or device not open for write")
-			err = d.Partition(&mbr.Table{})
-			if err.Error() != expectedErr.Error() {
-				t.Errorf("mismatched error, actual '%v' expected '%v'", err, expectedErr)
-			}
-			_, err = d.WritePartitionContents(0, nil)
-			if err.Error() != expectedErr.Error() {
-				t.Errorf("mismatched error, actual '%v' expected '%v'", err, expectedErr)
-			}
-
-			_, err := d.CreateFilesystem(disk.FilesystemSpec{})
-			if err.Error() != expectedErr.Error() {
-				t.Errorf("mismatched error, actual '%v' expected '%v'", err, expectedErr)
-			}
 		}
 	}
 }
